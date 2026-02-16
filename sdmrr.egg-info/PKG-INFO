@@ -1,3 +1,12 @@
+Metadata-Version: 2.4
+Name: sdmrr
+Version: 1.0.0
+Summary: Software Defined Magnetic Resonance with USRP 
+Author-email: Hans Gaensbauer <hgaens@mit.edu>
+Description-Content-Type: text/markdown
+Requires-Dist: scipy
+Requires-Dist: numpy
+
 # SDMRR
 Software for USRP Based Magnetic Resonance Relaxometer. 
 
@@ -18,9 +27,9 @@ This library makes extensive use of timed commands to make sure all of the T/R s
 
 **This package requires the Ettus UHD Driver**, which has to be installed seperately. I recommend [Radioconda](https://github.com/radioconda/radioconda-installer). 
 
-Test the USRP driver using GQRX. Then install the SDMRR wheel into your conda environment with `pip install sdmrr-[x.x.x]-py3-none-any.whl`.
+Test the USRP driver using GQRX. Then install the SDMRR wheel into your conda environment with `pip install`.
 
-### Hardware and Low-Frequency Systems
+### Hardware and Low Frequency Systems
 
 Not all USRPs cover low frequencies. For permanent magnet systems, it is necessary to use external mixers to shift the USRP
 transmit/receive frequencies to the Larmor Frequency. 

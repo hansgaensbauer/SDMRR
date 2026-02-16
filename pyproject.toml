@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sdmrr"
+version = "1.0.0"
+authors = [
+  { name="Hans Gaensbauer", email="hgaens@mit.edu" }
+]
+description = "Software Defined Magnetic Resonance with USRP "
+readme = "README.md"
+dependencies = [
+    "scipy",
+    "numpy"
+]
+license-files = ["LICENSE*"]
+[tool.setuptools.packages.find]
+where = [".","sdmrr"]

@@ -1,0 +1,9 @@
+README.md
+pyproject.toml
+sdmrr/SDMRR.py
+sdmrr/__init__.py
+sdmrr.egg-info/PKG-INFO
+sdmrr.egg-info/SOURCES.txt
+sdmrr.egg-info/dependency_links.txt
+sdmrr.egg-info/requires.txt
+sdmrr.egg-info/top_level.txt

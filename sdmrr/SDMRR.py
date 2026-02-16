@@ -11,7 +11,7 @@ import json
 import sys
 import os
 
-from IPython.utils import io
+# from IPython.utils import io
 
 class SDMRR:
     
@@ -32,16 +32,20 @@ class SDMRR:
         self.radio.set_gpio_attr('FP0', 'DDR', 0xFFF, 0xFFF) # all outputs
         self.radio.set_gpio_attr("FP0", "OUT", 0x002, 0xFFF); #pin 2 ON
         
-        self.caldict = None
+        #Defaults
+        self.caldict = {
+            "f0": 22000000.000000, 
+            "t90": 0.0003
+            }
         
-        print("Loading Calibration Data")
-        # Opening JSON file
-        with open('cal.json', 'r') as cal:
-            self.caldict = json.load(cal)
+        if(os.path.isfile('cal.json')):
+            print("Loading Calibration Data")
+            with open('cal.json', 'r') as cal:
+                self.caldict = json.load(cal)
 
-        print("Last Calibration: " + (time.asctime(time.localtime(self.caldict["lastcal"]))))
-        if not nocal:
-            self.check_cal()
+            print("Last Calibration: " + (time.asctime(time.localtime(self.caldict["lastcal"]))))
+            if not nocal:
+                self.check_cal()
 
     def onepulse(self, freq = None, t90 = None, gain = 50, filt = True, start_time = 0.2, amp = 1):
 
@@ -457,7 +461,7 @@ class SDMRR:
 
             return mags_abs
         
-    def find_f0(self, t90 = None, gain = 70, freq = None):
+    def find_f0(self, t90 = None, gain = 70, freq = None, debug=False):
         if freq is None:
             freq = self.caldict["f0"]
         if t90 is None:
@@ -469,6 +473,9 @@ class SDMRR:
         ftfreqs = np.fft.fftfreq(4000, self.FS)
         maxfreq = ftfreqs[np.argmax(np.fft.fftshift(np.abs(efft)))-2000]
         f0 = freq + maxfreq
+
+        if(debug):
+            print(f0)
 
         return f0
     
@@ -506,10 +513,10 @@ class SDMRR:
             
         return 1/popt[1]
     
-    def cal(self, f0=None, t90=None):
+    def cal(self, f0=None, t90=None, debug=False):
         if f0 is None and t90 is None:
             self.caldict["f0"] = self.find_f0()
-            tfids = self.find_t90()
+            tfids = self.find_t90(debug=debug)
             self.caldict["t90"] = tfids[np.argmax(tfids[:,1]),0]
             self.caldict["lastcal"] = time.time()
         else:
